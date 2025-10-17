@@ -1,0 +1,30 @@
+# Contributor: Tim Burks <tim@agent.io>
+# Maintainer: Tim Burks <tim@agent.io>
+pkgname=sidecar
+pkgver=0.1.12
+pkgrel=0
+pkgdesc="A Sidecar gRPC Demo"
+url="https://github.com/agentio/sidecar"
+arch="all"
+license="Apache 2.0"
+makedepends="go protoc"
+options="net"
+source="$pkgname-$pkgver.tar.gz::https://github.com/agentio/$pkgname/archive/v$pkgver.tar.gz"
+
+build() {
+	make rpc
+	CGO_ENABLED=0 go build -o echo-sidecar ./cmd/echo-sidecar
+}
+
+check() {
+	go test ./...
+}
+
+package() {
+	mkdir -p $pkgdir/usr/bin
+	install -m 755 --target-directory "$pkgdir/usr/bin" echo-sidecar
+}
+
+sha512sums="
+62db990cab46c1e6ae86cb3ca3829f4ce57de37a904a71bc8bdf7e0c3d0dcffad07e3385eeb53fc1e549cb514a6890732003f55588baedd155460a99301ed947  sidecar-0.1.12.tar.gz
+"

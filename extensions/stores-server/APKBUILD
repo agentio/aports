@@ -1,0 +1,29 @@
+# Contributor: Tim Burks <tim@agent.io>
+# Maintainer: Tim Burks <tim@agent.io>
+pkgname=stores-server
+pkgver=0.1.1
+pkgrel=0
+pkgdesc="The Boba Dojo Stores API"
+url="https://github.com/bobadojo/stores-server"
+arch="all"
+license="Apache 2.0"
+makedepends="go"
+options="net"
+source="$pkgname-$pkgver.tar.gz::https://github.com/bobadojo/$pkgname/archive/v$pkgver.tar.gz"
+
+build() {
+	CGO_ENABLED=0 go build -o stores-server ./cmd/stores-server
+}
+
+check() {
+       go test ./...
+}
+
+package() {
+	mkdir -p $pkgdir/usr/bin
+	install -m 755 --target-directory "$pkgdir/usr/bin" stores-server
+}
+
+sha512sums="
+9921b92e58d38bd53aae7785d9acbe65bcecdee484bc5313e2cc4dcd7427e8e0888a8c44418208d0f940288aaba35099e45ed976c7552853a3b814ae41dc65d2  stores-server-0.1.1.tar.gz
+"
