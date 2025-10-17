@@ -12,7 +12,8 @@ options="net"
 source="$pkgname-$pkgver.tar.gz::https://github.com/bobadojo/$pkgname/archive/v$pkgver.tar.gz"
 
 build() {
-	CGO_ENABLED=0 go build -o stores-server ./cmd/stores-server
+	go build -o stores-server ./cmd/stores-server
+	go build -o stores-client ./cmd/stores-client
 }
 
 check() {
@@ -22,6 +23,7 @@ check() {
 package() {
 	mkdir -p $pkgdir/usr/bin
 	install -m 755 --target-directory "$pkgdir/usr/bin" stores-server
+	install -m 755 --target-directory "$pkgdir/usr/bin" stores-client
 }
 
 sha512sums="
